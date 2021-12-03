@@ -21,14 +21,14 @@ def get_course_choices(courses):
     course_names_in_tuples = [(name, name) for name in course_names]
     return course_names_in_tuples
 
-def get_year_choices(courses):
+#def get_year_choices(courses):
     # Default value for unspecified year name
-    years = [('-')]
-    for course in courses:
-        if course.year not in years:
-            years.append(course.year)
-    years_in_tuples = [(year, year) for year in years]
-    return years_in_tuples
+#    years = [('-')]
+#    for course in courses:
+#        if course.year not in years:
+#            years.append(course.year)
+#    years_in_tuples = [(year, year) for year in years]
+#    return years_in_tuples
 
 def get_author_choices(programs):
     # Default value for unspecified author name

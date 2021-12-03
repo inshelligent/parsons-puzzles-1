@@ -14,8 +14,8 @@
                 {{ form.course(class="form-control") }}
             </div>
             <div class="col-md-6 mb-2">
-                {{ form.year.label }}
-                {{ form.year(class="form-control") }}
+                {{ form.tag.label }}
+                {{ form.tag(class="form-control") }}
             </div>
             <div class="col-md-6 mb-2">
                 {{ form.author.label }}
@@ -36,7 +36,6 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Course</th>
                 <th>Year</th>
                 <th>Tag</th>
                 <th>Author</th>
@@ -47,7 +46,6 @@
             <tr>
                 <td><a href="{{ url_for('puzzle.puzzle_detail', program_url = puzzle.url)}}">{{ puzzle.title }}</a></td>
                 <td>{{ puzzle.course.name }}</td>
-                <td>{{ puzzle.course.year }}</td>
                 <td>{% if puzzle.tag %} {{ puzzle.tag.name }} {% endif %}</td>
                 <td>{{ puzzle.author }}</td>
             </tr>

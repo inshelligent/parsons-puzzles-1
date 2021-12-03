@@ -8,7 +8,7 @@ from app import db
 from app.admin import admin
 from app.models import User, Program, Course, Tag
 from app.utils import (
-    get_author_choices, get_year_choices, get_course_choices, get_tag_choices, generate_random_url
+    get_author_choices, get_course_choices, get_tag_choices, generate_random_url
 )
 from .forms import (
     AdminSearchProgramForm, CreateProgramForm, ProgramEditForm,
@@ -45,7 +45,7 @@ def manage():
     tags = Tag.query.all()
 
     form.course.choices = get_course_choices(courses)
-    form.year.choices = get_year_choices(courses)
+    #form.year.choices = get_year_choices(courses)
     form.author.choices = get_author_choices(programs)
     form.tag.choices = get_tag_choices(tags)
 
@@ -54,8 +54,8 @@ def manage():
     if form.course.data is not None and form.course.data != 'None' and form.course.data != '-':
         query = query.filter(Course.name == form.course.data)
 
-    if form.year.data is not None and form.year.data != 'None' and form.year.data != '-':
-        query = query.filter(Course.year == form.year.data)
+    #if form.year.data is not None and form.year.data != 'None' and form.year.data != '-':
+    #    query = query.filter(Course.year == form.year.data)
     
     if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
         query = query.filter(Program.author == form.author.data)
@@ -65,7 +65,7 @@ def manage():
 
     query = query.order_by(Program.created.desc())
     page = request.args.get('page', 1, type = int)
-    posts_per_page = 10
+    posts_per_page = 20
 
     puzzles_page = puzzles_page = query.paginate(page, posts_per_page, False)
 
@@ -182,7 +182,7 @@ def create_puzzle():
     tags = Tag.query.all()
     form.tag_id.choices = [(tag.id, tag.name) for tag in tags]
     courses = Course.query.order_by(Course.name.desc()).all()
-    form.course_id.choices = [(course.id, f'{course.name} S{course.semester} {course.year}') for course in courses]
+    form.course_id.choices = [(course.id, f'{course.name}') for course in courses]
     form.author.data = current_user.username
 
     if form.validate_on_submit():
@@ -224,7 +224,7 @@ def edit_puzzle(id):
     tags = Tag.query.all()
     form.tag_id.choices = [(tag.id, tag.name) for tag in tags]
     courses = Course.query.order_by(Course.name.desc()).all()
-    form.course_id.choices = [(course.id, f'{course.name} S{course.semester} {course.year}') for course in courses]
+    form.course_id.choices = [(course.id, f'{course.name}') for course in courses]
     submitted_code = json.dumps(form.code.data)
     
     if form.validate_on_submit():

@@ -27,13 +27,13 @@ class User(UserMixin, db.Model):
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.Text(), nullable = False)
-    semester = db.Column(db.Integer)
-    year = db.Column(db.Integer)
+    #semester = db.Column(db.Integer)
+    #year = db.Column(db.Integer)
     current = db.Column(db.Boolean)
     programs = db.relationship('Program', back_populates = 'course')
 
     def __repr__(self):
-        return f'<Course - {self.name} S{self.semester}>'
+        return f'<Course - {self.name}>'
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key = True)

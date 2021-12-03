@@ -18,6 +18,6 @@ class ProgramForm(FlaskForm):
 class SearchProgramForm(FlaskForm):
     ''' Form for searching through programs '''
     course = SelectField('Course')
-    year = SelectField('Year')
+    tag = SelectField('Tag')
     author = SelectField('Author')
     search = SubmitField('Search')

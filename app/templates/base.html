@@ -21,11 +21,14 @@
 			<li class="nav-item {% if active_page == 'past' %}active {% endif %}">
 			  <a class="nav-link"  href="{{ url_for('index') }}">All Puzzles</span></a>
 			</li>
-			<li class="nav-item {% if active_page == 'list' and course == 'PROG101' %}active {% endif %}">
-			  <a class="nav-link" href="{{ url_for('puzzle.prog101_puzzles') }}">PROG101</a>
+<!--			<li class="nav-item {% if active_page == 'list' and course == 'PROG101' %}active {% endif %}">
+			  <a class="nav-link" href="{{ url_for('puzzle.prog101_puzzles') }}">PROG101</a> -->
 			</li>
 			<li class="nav-item {% if active_page == 'research' %}active {% endif %}">
 				<a class="nav-link" href="{{ url_for('research') }}">Research</a>
+			</li>
+			<li class="nav-item {% if active_page == 'levels' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('levels') }}">Levels</a>
 			</li>
 			<li class="nav-item {% if active_page == 'admin' %}active {% endif %}">
 				<a class="nav-link" href="{{ url_for('admin.index') }}">Admin</a>
@@ -73,7 +76,7 @@
 		</div>
 		<footer>
 		{% filter markdown %} 
-		Adapted and modified from [Shlomi Hod's Parsons Puzzles web application](http://parsons.problemsolving.io/), available under [MIT Licence](https://github.com/ProblemSolvingIO/parsons/blob/master/LICENSE).
+		Adapted and modified by Daniel Hickmott from [Shlomi Hod's Parsons Puzzles web application](http://parsons.problemsolving.io/), available under [MIT Licence](https://github.com/ProblemSolvingIO/parsons/blob/master/LICENSE).
 		{% endfilter %}
 		  </footer>
 	</main>

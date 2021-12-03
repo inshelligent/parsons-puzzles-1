@@ -43,20 +43,34 @@ def init_db():
     db.create_all()
 
     click.echo('Create an example course...')
-    programming_course = models.Course (
-        name = 'PROG101',
-        semester = 2,
-        year = 2021,
+    programming_course1 = models.Course (
+        name = 'Year 7',
+        #semester = 2,
+        #year = 2021,
         current = True
     )
-    db.session.add(programming_course)
+    db.session.add(programming_course1)
 
-    click.echo('Create tags for Weeks 0-2...')
-    tags = {}
-    for n in range(0, 3):
-        tag = models.Tag(name = f'Week {n}', hidden = False)
-        db.session.add(tag)
-        tags[str(n)] = tag
+    programming_course2 = models.Course (
+        name = 'Year 8',
+        #semester = 2,
+        #year = 2021,
+        current = True
+    )
+    db.session.add(programming_course2)
+
+    click.echo('Create main concept tags...')
+    tag1 = models.Tag(name = "Loops", hidden = False)
+    db.session.add(tag1)
+    tag2 = models.Tag(name = "Variables", hidden = False)
+    db.session.add(tag2)
+    tag3 = models.Tag(name = "IF statements", hidden = False)
+    db.session.add(tag3)
+    tag4 = models.Tag(name = "User Input", hidden = False)
+    db.session.add(tag4)
+    tag5 = models.Tag(name = "Data Types", hidden = False)
+    db.session.add(tag5)
+
     
     click.echo('Create an admin user from .env settings...')
     admin_username = os.environ.get('PARSON_ADMIN_USERNAME')
@@ -75,8 +89,8 @@ def init_db():
         is_instructor = True,
         created = datetime.now(),
         author = os.environ.get('PARSON_ADMIN_USERNAME'),
-        course = programming_course,
-        tag = tags['1']
+        course = programming_course1,
+        tag = tag1
     )
     db.session.add(program)
 

@@ -8,19 +8,19 @@ from app import db
 from app.puzzle import puzzle
 from app.models import Program, Tag, Course
 from app.utils import (
-    get_course_choices, get_year_choices, get_author_choices, generate_random_url, generate_file_name,
+    get_course_choices, get_author_choices, get_tag_choices, generate_random_url, generate_file_name,
 )
 from .forms import SearchProgramForm, ProgramForm
 
-@puzzle.route('/prog101')
+@puzzle.route('/year7')
 def prog101_puzzles():
-    ''' Show all the current programs for PROG101 '''
+    ''' Show all the current programs for Year 7 '''
     puzzles = Program.query.filter(Program.is_instructor == True) \
-                .join(Course).filter(Course.name == 'PROG101') \
+                .join(Course).filter(Course.name == 'Year 7') \
                 .join(Tag).filter(Tag.hidden == False) \
-                .order_by(desc(Tag.name), asc(Program.created)) \
+                .order_by(asc(Program.created)) \
                 .all()
-    return render_template('puzzles_list.html', puzzles = puzzles, course = 'PROG101', title = 'Programming Puzzles')
+    return render_template('puzzles_list.html', puzzles = puzzles, course = 'Year 7', title = 'Programming Puzzles')
 
 @puzzle.route('/all', methods = ['GET', 'POST'])
 def all_puzzles():
@@ -29,8 +29,9 @@ def all_puzzles():
 
     courses = Course.query.all()
     programs = Program.query.all()
+    tags = Tag.query.all()
     form.course.choices = get_course_choices(courses)
-    form.year.choices = get_year_choices(courses)
+    form.tag.choices = get_tag_choices(tags) 
     form.author.choices = get_author_choices(programs)
 
     query = Program.query.outerjoin(Tag).join(Course) \
@@ -39,15 +40,19 @@ def all_puzzles():
     if form.course.data is not None and form.course.data != 'None' and form.course.data != '-':
         query = query.filter(Course.name == form.course.data)
 
-    if form.year.data is not None and form.year.data != 'None' and form.year.data != '-':
-        query = query.filter(Course.year == form.year.data)
+#    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
+#        query = query.filter(Program.tag == form.tag.data)
+        
+    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
+        query = query.filter(Program.tag_id == int(form.tag.data))
+
     
     if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
         query = query.filter(Program.author == form.author.data)
 
-    query = query.order_by(Program.created.desc())
+    query = query.order_by(Program.created.asc())
     page = request.args.get('page', 1, type = int)
-    posts_per_page = 10
+    posts_per_page = 20
 
     puzzles_page = query.paginate(page, posts_per_page, False)
 
