@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% set active_page = "list" %}
+
+{% block content %}
+
+<h3>{{ title }}</h3>
+
+{% for group, tag_puzzles in puzzles | groupby('tag.name') | sort(attribute = 'grouper', reverse = True) %}
+
+    <h4 class="my-4">{{ group }}</h4>
+    {% if loop.index == 1 %}
+    <table class="table table-striped table-bordered my-3">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for puzzle in tag_puzzles %}
+            <tr>
+                <td><a href="{{ url_for('puzzle.puzzle_detail', program_url = puzzle.url)}}">{{ puzzle.title }}</a></td>
+                <td>{{ puzzle.author }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+
+    {% with tag_id = tag_puzzles[0].tag_id %}
+    {% include 'collapse_puzzle_list.html' %}
+    {% endwith %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% set active_page = 'create' %}
+{% block title %}<title>Parsons Puzzle: Create a Puzzle</title> {% endblock %}
+{% block content %}
+
+{% filter markdown %}
+## Create Parson's Puzzle
+
+To create a parson's puzzle, write out the program code and fill in the title, author and description fields in the form below.
+
+You can preview the puzzle before sharing it, by clicking the *Preview* button.
+If you make changes to the code, use the *Reload Code* button to see those changes in the created puzzle.
+
+You can put a *#distractor* comment at the end of the line to set it as a distractor line.
+Distractor lines will appear as pieces in your shared puzzle but those pieces do not have to be included in the solution.
+Note that the maximum number of distractor lines you can create in each puzzle is 10.
+
+Once you are ready to share your puzzle, click the *Share Puzzle* button.
+Puzzles that have been shared can't be edited after they have been shared.
+
+### New Puzzle
+
+{% endfilter %}
+
+<div class="my-3">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+      <div class="col-md-6 mb-2">
+        {{ form.title.label }}
+        {{ form.title(class="form-control") }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.author.label }}
+        {{ form.author(class="form-control") }}
+      </div>
+    </div>
+    <div class="form-row mb-2">
+      {{ form.puzzle_description.label }}
+      {{ form.puzzle_description(class="form-control") }}
+    </div>
+    <div class="form-row mb-2">
+      {{ form.code.label }}
+      <div id="editor"></div>
+      {{ form.code }}
+    </div>
+    <p>
+      <button id="previewButton" class="btn btn-info my-2">
+        <i class="far fa-eye fa-lg button-icon"></i>
+        Preview Puzzle
+      </button>
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-share-square fa-lg button-icon"></i> Share Puzzle
+      </button>
+    </p>
+  </form>
+  <div id="previewPanel" class="puzzle-panel">
+    <label>Preview the puzzle</label>
+    <div class="row">
+      <div id="sortableTrash" class="sortable-code"></div>
+      <div id="sortable" class="sortable-code"></div>
+    </div>
+    <p>
+      <button id="checkButton" class="btn btn-success my-3">
+        <i class="fas fa-clipboard-check fa-lg button-icon"></i> Check Solution
+      </button>
+      <button id="reloadButton" class="btn btn-outline-primary my-3">
+        <i class="fas fa-sync-alt fa-lg button-icon"></i> Reload from Code
+      </button>
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></script>
+<script src="{{ url_for('static', filename='js/he.js') }}"></script>
+<script type="text/javascript">
+
+function displayErrors(fb) {
+  if(fb.errors.length > 0) {
+      alert(fb.errors[0]);
+  }
+}
+
+$(function(){
+
+  $("#previewPanel").hide();
+
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/github");
+  editor.session.setMode("ace/mode/python");
+  editor.setShowPrintMargin(false);
+  
+  {% if code %}
+  editor.setValue(he.decode('{{ code }}').slice(1,-1));
+  {% endif %}
+  
+  var textarea = $('textarea[name="code"]');
+  editor.getSession().on("change", function () {
+    textarea.val(editor.getSession().getValue());
+  });
+
+  var parson = new ParsonsWidget({
+      'sortableId': 'sortable',
+      'trashId': 'sortableTrash',
+      'feedback_cb' : displayErrors
+  });
+
+  $("#previewButton").click(function(event) {
+    event.preventDefault();
+    $("#previewPanel").hide();
+    $("#previewPanel").fadeToggle(750);
+    parson.init(editor.getSession().getValue());
+    parson.shuffleLines();
+  });
+
+  $("#reloadButton").click(function(event) {
+    event.preventDefault();
+    parson.init(editor.getSession().getValue());
+    parson.shuffleLines();
+  });
+
+  $("#checkButton").click(function(event){
+      event.preventDefault();
+      parson.getFeedback();
+  });
+});
+</script>
+{% endblock %}

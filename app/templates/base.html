@@ -1,0 +1,91 @@
+<!doctype html>
+{% block title %}
+<title>{% if title %}{{ title }} - {% endif %}Parsons Puzzles</title>
+{% endblock %}
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/puzzles.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/parsons.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/prettify.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.5.13.0.all.min.css') }}" />
+	{% block header %}{% endblock %}
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+		<a class="navbar-brand" href="{{ url_for('index') }}">Parsons Puzzles</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#puzzle-navbar" aria-controls="puzzle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="puzzle-navbar">
+		  <ul class="navbar-nav mr-auto">
+			<li class="nav-item {% if active_page == 'past' %}active {% endif %}">
+			  <a class="nav-link"  href="{{ url_for('index') }}">All Puzzles</span></a>
+			</li>
+			<li class="nav-item {% if active_page == 'list' and course == 'PROG101' %}active {% endif %}">
+			  <a class="nav-link" href="{{ url_for('puzzle.prog101_puzzles') }}">PROG101</a>
+			</li>
+			<li class="nav-item {% if active_page == 'research' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('research') }}">Research</a>
+			</li>
+			<li class="nav-item {% if active_page == 'admin' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('admin.index') }}">Admin</a>
+			</li>
+			{% if current_user.is_authenticated %}
+			<li class="nav-item {% if active_page == 'create_admin' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('admin.create_puzzle') }}">Create</a>
+			</li>
+			<li class="nav-item {% if active_page == 'tags' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('admin.tag_list') }}">Tags</a>
+			</li>
+			<li class="nav-item {% if active_page == 'courses' %}active {% endif %}">
+				<a class="nav-link" href="{{ url_for('admin.course_list') }}">Courses</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
+			</li>
+			{% endif %}
+			</ul>
+		</div>
+	</nav>
+	<main id="content" role="main" class="container">
+		<div class="puzzle-content">
+			{% if form %}
+				{% if form.errors %}
+				<div class="card border-danger mb-3">
+					<div class="card-header"><strong>Whoops!</strong></div>
+					<div class="card-body">
+						<p class="card-text">
+							Try addressing these errors and 
+							{% if action %} {{ action }} {% else %} sharing your puzzle {% endif %} again:
+							<ul class="errors content-list">
+								{% for field_name, field_errors in form.errors|dictsort if field_errors %}
+									{% for error in field_errors %}
+									<li>{{ form[field_name].label }}: {{ error }}</li>
+									{% endfor %}
+								{% endfor %}
+							</ul>
+						</p>
+					</div>
+				</div>
+				{% endif %}
+			{% endif %}
+		{% block content %}{% endblock %}
+		</div>
+		<footer>
+		{% filter markdown %} 
+		Adapted and modified from [Shlomi Hod's Parsons Puzzles web application](http://parsons.problemsolving.io/), available under [MIT Licence](https://github.com/ProblemSolvingIO/parsons/blob/master/LICENSE).
+		{% endfilter %}
+		  </footer>
+	</main>
+	<script src="{{ url_for('static', filename='js/jquery.3.3.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery-ui.1.12.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.ui.touch-punch.0.2.3.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/underscore-min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/lis.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/parsons.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/prettify.min.js') }}"></script>
+	{% block scripts %}{% endblock %}
+</body>
+</html>

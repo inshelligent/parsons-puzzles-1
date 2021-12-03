@@ -1,0 +1,22 @@
+<a class="btn btn-primary collapsed" data-toggle="collapse" href="#collapse-{{ tag_id }}-puzzles">
+    <span class="if-collapsed"><i class="far fa-eye fa-lg button-icon"></i> Show {{ label }} Puzzles</span>
+    <span class="if-not-collapsed"><i class="far fa-eye-slash fa-lg button-icon"></i> Hide {{ label }} Puzzles</span>
+</a>
+<div class="collapse" id="collapse-{{ tag_id }}-puzzles">
+    <table class="table table-striped table-bordered my-3">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for puzzle in tag_puzzles %}
+            <tr>
+                <td><a href="{{ url_for('puzzle.puzzle_detail', program_url = puzzle.url)}}">{{ puzzle.title }}</a></td>
+                <td>{{ puzzle.author }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

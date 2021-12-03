@@ -1,0 +1,46 @@
+body {
+  padding-top: 5rem;
+}
+
+#content {
+  max-width: 90%;
+}
+
+.puzzle-content {
+  padding: 1rem 1rem;
+}
+
+.content-list {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+#editor { 
+    width: 100%;
+    height: 200px;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0.25rem;
+}
+
+.button-icon {
+    padding: 0 0.15em;
+}
+
+.puzzle-panel {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f7f7f9;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  
+    @include media-breakpoint-up(sm) {
+      padding: 1.5rem;
+    }
+}
+
+[data-toggle="collapse"].collapsed .if-not-collapsed {
+  display: none;
+}
+[data-toggle="collapse"]:not(.collapsed) .if-collapsed {
+  display: none;
+}

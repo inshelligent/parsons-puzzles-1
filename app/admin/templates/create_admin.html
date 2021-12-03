@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% set active_page = 'create_admin' %}
+{% block content %}
+<h3>{{ title }}</h3>
+<div class="my-3">
+    <form method="POST" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="form-row">
+        <div class="col-md-6 mb-2">
+          {{ form.title.label }}
+          {{ form.title(class="form-control") }}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{ form.author.label }}
+          {{ form.author(class="form-control") }}
+        </div>
+        <div class="col-md-6 mb-2">
+            {{ form.course_id.label }}
+            {{ form.course_id(class="form-control") }}
+        </div>
+        <div class="col-md-6 mb-2">
+            {{ form.tag_id.label }}
+            {{ form.tag_id(class="form-control") }}
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        {{ form.puzzle_description.label }}
+        {{ form.puzzle_description(class="form-control") }}
+      </div>
+      <div class="form-row mb-2">
+        {{ form.code.label }}
+        <div id="editor"></div>
+        {{ form.code }}
+      </div>
+      <p>
+        <button id="previewButton" class="btn btn-info my-2">
+          <i class="far fa-eye fa-lg button-icon"></i>
+          Preview Puzzle
+        </button>
+        <button class="btn btn-primary" type="submit">
+          <i class="fas fa-share-square fa-lg button-icon"></i> Share Puzzle
+        </button>
+      </p>
+    </form>
+    <div id="previewPanel" class="puzzle-panel">
+      <label>Preview the puzzle</label>
+      <div class="row">
+        <div id="sortableTrash" class="sortable-code"></div>
+        <div id="sortable" class="sortable-code"></div>
+      </div>
+      <p>
+        <button id="checkButton" class="btn btn-success my-3">
+          <i class="fas fa-clipboard-check fa-lg button-icon"></i> Check Solution
+        </button>
+        <button id="reloadButton" class="btn btn-outline-primary my-3">
+          <i class="fas fa-sync-alt fa-lg button-icon"></i> Reload from Code
+        </button>
+      </p>
+    </div>
+  </div>
+  {% endblock %}
+  
+  {% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></script>
+  <script src="{{ url_for('static', filename='js/he.js') }}"></script>
+  <script type="text/javascript">
+  
+  function displayErrors(fb) {
+    if(fb.errors.length > 0) {
+        alert(fb.errors[0]);
+    }
+  }
+  
+  $(function(){
+  
+    $("#previewPanel").hide();
+  
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/github");
+    editor.session.setMode("ace/mode/python");
+    editor.setShowPrintMargin(false);
+    
+    {% if code %}
+    editor.setValue(he.decode('{{ code }}').slice(1,-1));
+    {% endif %}
+    
+    var textarea = $('textarea[name="code"]');
+    editor.getSession().on("change", function () {
+      textarea.val(editor.getSession().getValue());
+    });
+  
+    var parson = new ParsonsWidget({
+        'sortableId': 'sortable',
+        'trashId': 'sortableTrash',
+        'feedback_cb' : displayErrors
+    });
+  
+    $("#previewButton").click(function(event) {
+      event.preventDefault();
+      $("#previewPanel").hide();
+      $("#previewPanel").fadeToggle(750);
+      parson.init(editor.getSession().getValue());
+      parson.shuffleLines();
+    });
+  
+    $("#reloadButton").click(function(event) {
+      event.preventDefault();
+      parson.init(editor.getSession().getValue());
+      parson.shuffleLines();
+    });
+  
+    $("#checkButton").click(function(event){
+        event.preventDefault();
+        parson.getFeedback();
+    });
+  });
+  </script>
+  {% endblock %}

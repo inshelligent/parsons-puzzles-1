@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% set active_page = 'research' %}
+
+{% block title %}<title>Parsons Puzzle: Research</title> {% endblock %}
+{% block content %}
+
+<h1>Research</h1>
+<div class="content-list">
+{% filter markdown %}
+
+Parsons puzzles have been studied by Computing Education researchers in a variety of contexts.
+
+Research articles and educational resources related to Parson's puzzles include:
+
+- CS Teaching Tips. [Use Parsons problems on quizzes and tests to assess student understanding of code](https://www.csteachingtips.org/tip/use-parsons-problems-quizzes-and-tests-assess-student-understanding-code).
+- Du, Y., Luxton-Reilly, A., & Denny, P. (2020, February). [A Review of Research on Parsons Problems](https://dl.acm.org/doi/pdf/10.1145/3373165.3373187). In Proceedings of the Twenty-Second Australasian Computing Education Conference (pp. 195-202).
+- Ericson, B. J., Margulieux, L. E., & Rick, J. (2017, November). [Solving parsons problems versus fixing and writing code](https://www.researchgate.net/publication/320850846_Solving_parsons_problems_versus_fixing_and_writing_code). In Proceedings of the 17th Koli Calling International Conference on Computing Education Research (pp. 20-29).
+- Harms, K. J., Chen, J., & Kelleher, C. L. (2016, August). [Distractors in Parsons problems decrease learning efficiency for young novice programmers](https://kharms.infosci.cornell.edu/downloads/harmsk-icer-2016.pdf). In Proceedings of the 2016 ACM Conference on International Computing Education Research (pp. 241-250).
+- Ihantola, P., & Karavirta, V. (2011). [Two-dimensional parson’s puzzles: The concept, tools, and first observations](http://jite.org/documents/Vol10/JITEv10IIPp119-132Ihantola944.pdf). Journal of Information Technology Education, 10, 119-132.
+- Parsons, D., & Haden, P. (2006, January). [Parson's programming puzzles: a fun and effective learning tool for first programming courses](https://crpit.scem.westernsydney.edu.au/confpapers/CRPITV52Parsons.pdf). In Proceedings of the 8th Australasian Conference on Computing Education-Volume 52 (pp. 157-163).
+Australian Computer Society, Inc.
+
+</div>
+
+{% endfilter %}
+
+{% endblock %}

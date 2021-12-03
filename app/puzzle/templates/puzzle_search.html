@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% set active_page = "past" %}
+
+{% block content %}
+
+<h3>{{ title }}</h3>
+
+<!-- Section for the search form inputs -->
+<div class="my-3">
+    <form method="GET" novalidate>
+        <div class="form-row">
+            <div class="col-md-6 mb-2">
+                {{ form.course.label }}
+                {{ form.course(class="form-control") }}
+            </div>
+            <div class="col-md-6 mb-2">
+                {{ form.year.label }}
+                {{ form.year(class="form-control") }}
+            </div>
+            <div class="col-md-6 mb-2">
+                {{ form.author.label }}
+                {{ form.author(class="form-control") }}
+            </div>
+            <div class="col-md-12 mb-2">
+                {{ form.search(class="btn btn-primary float-right") }}
+                <a class="btn btn-secondary float-right mx-2" href="{{ url_for('puzzle.all_puzzles') }}">
+                Clear search
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Section that shows the result from the search -->
+<div class="my-3">
+    <table class="table table-striped table-bordered my-3">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Course</th>
+                <th>Year</th>
+                <th>Tag</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for puzzle in puzzles_page.items %}
+            <tr>
+                <td><a href="{{ url_for('puzzle.puzzle_detail', program_url = puzzle.url)}}">{{ puzzle.title }}</a></td>
+                <td>{{ puzzle.course.name }}</td>
+                <td>{{ puzzle.course.year }}</td>
+                <td>{% if puzzle.tag %} {{ puzzle.tag.name }} {% endif %}</td>
+                <td>{{ puzzle.author }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <ul class="pagination">
+        {% for page in puzzles_page.iter_pages() %}
+        {% if page != puzzles_page.page %}
+        <li class="page-item">
+            <a class="page-link"
+                href="{{ url_for('puzzle.all_puzzles', page = loop.index,
+                    course = form.course.data, year = form.year.data, author = form.author.data) }}">
+                {{ loop.index }}
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link active">{{ page }}</a>
+        <li class="page-item">
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}

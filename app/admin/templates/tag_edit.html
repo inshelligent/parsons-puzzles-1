@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% set active_page = 'tags' %}
+
+{% block content %}
+<h3>{{ title }} - {{ tag.name }}</h3>
+<div class="my-3">
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+            <div class="col-md-12 mb-2">
+                {{ form.name.label }}
+                {{ form.name(class="form-control") }}
+            </div>
+            <div class="col-md-12 mb-2">
+                {{ form.hidden.label }}
+                {{ form.hidden() }}
+            </div>
+            <div class="col-md-12 mb-2">
+                {{ form.submit(class="btn btn-primary float-right") }}
+                <a class="btn btn-secondary float-right mx-2" href="{{ url_for('admin.tag_list') }}">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
