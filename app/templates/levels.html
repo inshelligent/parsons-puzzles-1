@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% set active_page = 'levels' %}
+
+{% block title %}<title>Parsons Puzzle: Difficulty Levels</title> {% endblock %}
+{% block content %}
+
+<h1>Difficulty Level Info</h1>
+<div class="content-list">
+{% filter markdown %}
+
+Parsons puzzles can be written in such a way that alters the difficulty, 
+and this can assist with differentiation in the classroom to cater for a variety of abilities.
+
+<h4 class="my-4">Level 1: Basic</h4>
+Code is out of order, but contains no syntax errors. When reordered, will be an optimal solution to the problem. No indentation.
+
+<h4 class="my-4">Level 2: Basic + Indentation</h4>
+Out of order, but contains no syntax errors. Indentation required. Also called 2D Parson’s Puzzles.
+
+<h4 class="my-4">Level 3: Distractors</h4>
+Code is out of order, may or may not require indentation, and also includes distractors - deliberately incorrect code.
+
+<h4 class="my-4">Level 4: Indentation + Random Noise</h4>
+Code is out of order and contains unrelated random noise. 
+
+</div>
+
+{% endfilter %}
+
+{% endblock %}
