@@ -80,7 +80,7 @@ def init_db():
     admin_user.set_password(admin_password)
     db.session.add(admin_user)
 
-    click.echo('Create an example program tagged for Week 1...')
+    click.echo('Create an example program...')
     program = models.Program (
         title = 'Hello World',
         puzzle_description = "This is a program that prints 'Hello world!'",
@@ -90,7 +90,8 @@ def init_db():
         created = datetime.now(),
         author = os.environ.get('PARSON_ADMIN_USERNAME'),
         course = programming_course1,
-        tag = tag1
+        tag = tag1,
+        level = 1
     )
     db.session.add(program)
 

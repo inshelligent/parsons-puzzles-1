@@ -8,9 +8,9 @@ from app.puzzle.forms import ProgramForm
 class AdminSearchProgramForm(FlaskForm):
     ''' Form for searching through programs '''
     course = SelectField('Course')
-    #year = SelectField('Year')
     author = SelectField('Author')
     tag = SelectField('Tag')
+    level = SelectField('Difficulty Level')
     search = SubmitField('Search')
 
 class LoginForm(FlaskForm):
@@ -29,8 +29,6 @@ class TagEditForm(TagAddForm):
 
 class CourseAddForm(FlaskForm):
     name = StringField('Name', validators = [DataRequired()])
-    #year = IntegerField('Year', validators = [DataRequired()])
-    #semester = IntegerField('Semester', validators=[DataRequired()])
     current = BooleanField('Current?')
     submit = SubmitField('Add Course')
 

@@ -54,6 +54,7 @@ class Program(db.Model):
     url = db.Column(db.String(), unique=True, nullable=False)
     is_instructor = db.Column(db.Boolean)
     created = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+    level = db.Column(db.Integer)
 
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
     tag = db.relationship('Tag', back_populates = 'programs')

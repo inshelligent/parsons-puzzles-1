@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% set active_page = 'create_admin' %}
 {% block content %}
+{% filter markdown %}
+## Create Parson's Puzzle
+
+To create a parson's puzzle, write out the program code and fill in the title, author and description fields in the form below.
+
+You can preview the puzzle before sharing it, by clicking the *Preview* button.
+If you make changes to the code, use the *Reload Code* button to see those changes in the created puzzle.
+
+You can put a *#distractor* comment at the end of the line to set it as a distractor line.
+Distractor lines will appear as pieces in your shared puzzle but those pieces do not have to be included in the solution.
+Note that the maximum number of distractor lines you can create in each puzzle is 10.
+
+Once you are ready to share your puzzle, click the *Share Puzzle* button.
+Puzzles that have been shared can't be edited after they have been shared.
+
+{% endfilter %}
+
 <h3>{{ title }}</h3>
 <div class="my-3">
     <form method="POST" novalidate>
@@ -22,7 +39,11 @@
             {{ form.tag_id.label }}
             {{ form.tag_id(class="form-control") }}
         </div>
+        <div class="col-md-6 mb-2">
+          {{ form.level.label }}
+          {{ form.level(class="form-control") }}
       </div>
+    </div>
       <div class="form-row mb-2">
         {{ form.puzzle_description.label }}
         {{ form.puzzle_description(class="form-control") }}

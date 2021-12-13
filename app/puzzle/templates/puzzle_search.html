@@ -18,6 +18,10 @@
                 {{ form.tag(class="form-control") }}
             </div>
             <div class="col-md-6 mb-2">
+                {{ form.level.label }}
+                {{ form.level(class="form-control") }}
+            </div>
+            <div class="col-md-6 mb-2">
                 {{ form.author.label }}
                 {{ form.author(class="form-control") }}
             </div>
@@ -38,6 +42,7 @@
                 <th>Title</th>
                 <th>Year</th>
                 <th>Tag</th>
+                <th>Level</th>
                 <th>Author</th>
             </tr>
         </thead>
@@ -47,6 +52,7 @@
                 <td><a href="{{ url_for('puzzle.puzzle_detail', program_url = puzzle.url)}}">{{ puzzle.title }}</a></td>
                 <td>{{ puzzle.course.name }}</td>
                 <td>{% if puzzle.tag %} {{ puzzle.tag.name }} {% endif %}</td>
+                <td>{{ puzzle.level }}</td>
                 <td>{{ puzzle.author }}</td>
             </tr>
             {% endfor %}

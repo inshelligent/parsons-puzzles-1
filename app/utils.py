@@ -14,21 +14,13 @@ def generate_file_name(puzzle_url, puzzle_title):
 
 def get_course_choices(courses):
     # Default value for unspecified course name
-    course_names = [('-')]
+    course_choices = [(0,'-')]
     for course in courses:
-        if course.name not in course_names:
-            course_names.append(course.name)
-    course_names_in_tuples = [(name, name) for name in course_names]
-    return course_names_in_tuples
-
-#def get_year_choices(courses):
-    # Default value for unspecified year name
-#    years = [('-')]
-#    for course in courses:
-#        if course.year not in years:
-#            years.append(course.year)
-#    years_in_tuples = [(year, year) for year in years]
-#    return years_in_tuples
+        if course.name not in course_choices:
+            course_choices.append((course.id, course.name))
+    #course_names_in_tuples = [(name, name) for name in course_names]
+    course_choices.sort()
+    return course_choices
 
 def get_author_choices(programs):
     # Default value for unspecified author name
@@ -42,7 +34,13 @@ def get_author_choices(programs):
 
 def get_tag_choices(tags):
     # Default value for unspecified tag name
-    tag_choices = [('-','-')]
+    tag_choices = [(0,'-')]
     for tag in tags:
         tag_choices.append(( tag.id, tag.name ))
     return tag_choices
+
+def get_level_choices():
+    level_choices = [(0,'-')]
+    for count in range(1,5):
+        level_choices.append(( count, 'Level '+str(count) ))
+    return level_choices

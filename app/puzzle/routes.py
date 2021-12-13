@@ -8,7 +8,7 @@ from app import db
 from app.puzzle import puzzle
 from app.models import Program, Tag, Course
 from app.utils import (
-    get_course_choices, get_author_choices, get_tag_choices, generate_random_url, generate_file_name,
+    get_course_choices, get_author_choices, get_tag_choices, get_level_choices, generate_random_url, generate_file_name,
 )
 from .forms import SearchProgramForm, ProgramForm
 
@@ -33,20 +33,20 @@ def all_puzzles():
     form.course.choices = get_course_choices(courses)
     form.tag.choices = get_tag_choices(tags) 
     form.author.choices = get_author_choices(programs)
+    form.level.choices = get_level_choices()
 
     query = Program.query.outerjoin(Tag).join(Course) \
                 .filter(((Course.current == True) & ((Tag.hidden == False) | (Program.tag_id == None ))) | (Course.current == False)) 
 
-    if form.course.data is not None and form.course.data != 'None' and form.course.data != '-':
-        query = query.filter(Course.name == form.course.data)
+    if form.course.data is not None and form.course.data != 'None' and form.course.data != '-' and form.course.data != 0:
+        query = query.filter(Course.id == form.course.data)
 
-#    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
-#        query = query.filter(Program.tag == form.tag.data)
-        
-    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
+    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-' and form.tag.data != 0:
         query = query.filter(Program.tag_id == int(form.tag.data))
 
-    
+    if form.level.data is not None and form.level.data != 'None' and form.level.data != '-' and form.level.data != 0:
+        query = query.filter(Program.level == int(form.level.data))
+
     if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
         query = query.filter(Program.author == form.author.data)
 

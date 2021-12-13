@@ -8,7 +8,7 @@ from app import db
 from app.admin import admin
 from app.models import User, Program, Course, Tag
 from app.utils import (
-    get_author_choices, get_course_choices, get_tag_choices, generate_random_url
+    get_author_choices, get_course_choices, get_tag_choices, get_level_choices, generate_random_url
 )
 from .forms import (
     AdminSearchProgramForm, CreateProgramForm, ProgramEditForm,
@@ -45,23 +45,23 @@ def manage():
     tags = Tag.query.all()
 
     form.course.choices = get_course_choices(courses)
-    #form.year.choices = get_year_choices(courses)
     form.author.choices = get_author_choices(programs)
     form.tag.choices = get_tag_choices(tags)
+    form.level.choices = get_level_choices()
 
     query = Program.query.join(Course)
 
     if form.course.data is not None and form.course.data != 'None' and form.course.data != '-':
         query = query.filter(Course.name == form.course.data)
 
-    #if form.year.data is not None and form.year.data != 'None' and form.year.data != '-':
-    #    query = query.filter(Course.year == form.year.data)
-    
     if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
         query = query.filter(Program.author == form.author.data)
 
     if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
         query = query.filter(Program.tag_id == int(form.tag.data))
+
+    if form.level.data is not None and form.level.data != 'None' and form.level.data != '-':
+        query = query.filter(Program.level == int(form.level.data))
 
     query = query.order_by(Program.created.desc())
     page = request.args.get('page', 1, type = int)
@@ -178,12 +178,18 @@ def puzzle_delete(id):
 def create_puzzle():
     ''' Create a new puzzle and store it in the database '''
     form = CreateProgramForm()
+    form.author.data = current_user.username
 
     tags = Tag.query.all()
-    form.tag_id.choices = [(tag.id, tag.name) for tag in tags]
-    courses = Course.query.order_by(Course.name.desc()).all()
-    form.course_id.choices = [(course.id, f'{course.name}') for course in courses]
-    form.author.data = current_user.username
+    form.tag_id.choices = get_tag_choices(tags) 
+#    form.tag_id.choices = [(tag.id, tag.name) for tag in tags]
+
+#    courses = Course.query.all()
+    courses = Course.query.order_by(Course.name.asc()).all()
+    form.course_id.choices = get_course_choices(courses)
+#    form.course_id.choices = [(course.id, f'{course.name}') for course in courses]
+
+    form.level.choices = get_level_choices()
 
     if form.validate_on_submit():
         # Algorithm continues to generate urls until a unique one is found
@@ -198,8 +204,10 @@ def create_puzzle():
         # Create and store the new program in the database
         program = Program()
         form.populate_obj(program)
-        if form.tag_id.data == '-':
+        if form.tag_id.data == '-' or form.tag_id.data == 0:
             program.tag_id = None
+        if form.level.data == '-' or form.level.data == 0:
+            program.level = None
         program.url = program_url
         program.is_instructor = True
 
@@ -225,6 +233,7 @@ def edit_puzzle(id):
     form.tag_id.choices = [(tag.id, tag.name) for tag in tags]
     courses = Course.query.order_by(Course.name.desc()).all()
     form.course_id.choices = [(course.id, f'{course.name}') for course in courses]
+    form.level.choices = get_level_choices()
     submitted_code = json.dumps(form.code.data)
     
     if form.validate_on_submit():

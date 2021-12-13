@@ -9,6 +9,7 @@ class ProgramForm(FlaskForm):
         Length(min=4, max=100)], render_kw={'placeholder': 'Puzzle title'})
     author = StringField('Author', validators=[InputRequired(), Length(min=1, max=40)], 
         render_kw={'placeholder': 'Your first name'})
+    level = SelectField(coerce=int, label='Difficulty Level')
     description_placeholder = "Describe the problem that your code solves"
     puzzle_description = TextAreaField('Puzzle description', validators = [InputRequired(), 
         Length(min=4, max=2000)], render_kw={'rows': '5', 'placeholder': description_placeholder})
@@ -20,4 +21,5 @@ class SearchProgramForm(FlaskForm):
     course = SelectField('Course')
     tag = SelectField('Tag')
     author = SelectField('Author')
+    level = SelectField('Difficulty Level')
     search = SubmitField('Search')
