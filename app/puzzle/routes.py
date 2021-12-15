@@ -38,16 +38,16 @@ def all_puzzles():
     query = Program.query.outerjoin(Tag).join(Course) \
                 .filter(((Course.current == True) & ((Tag.hidden == False) | (Program.tag_id == None ))) | (Course.current == False)) 
 
-    if form.course.data is not None and form.course.data != 'None' and form.course.data != '-' and form.course.data != 0:
+    if form.course.data is not None and form.course.data not in ['None','-',0,'0']:
         query = query.filter(Course.id == form.course.data)
 
-    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-' and form.tag.data != 0:
+    if form.tag.data is not None and form.tag.data not in ['None','-',0,'0']:
         query = query.filter(Program.tag_id == int(form.tag.data))
 
-    if form.level.data is not None and form.level.data != 'None' and form.level.data != '-' and form.level.data != 0:
+    if form.level.data is not None and form.level.data not in ['None','-',0,'0']:
         query = query.filter(Program.level == int(form.level.data))
 
-    if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
+    if form.author.data is not None and form.author.data not in ['None','-',0,'0']:
         query = query.filter(Program.author == form.author.data)
 
     query = query.order_by(Program.created.asc())

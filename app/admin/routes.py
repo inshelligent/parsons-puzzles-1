@@ -51,16 +51,16 @@ def manage():
 
     query = Program.query.join(Course)
 
-    if form.course.data is not None and form.course.data != 'None' and form.course.data != '-':
+    if form.course.data is not None and form.course.data not in ['None','-','0',0]:
         query = query.filter(Course.name == form.course.data)
 
-    if form.author.data is not None and form.author.data != 'None' and form.author.data != '-':
+    if form.author.data is not None and form.author.data not in ['None','-','0',0]:
         query = query.filter(Program.author == form.author.data)
 
-    if form.tag.data is not None and form.tag.data != 'None' and form.tag.data != '-':
+    if form.tag.data is not None and form.tag.data not in ['None','-','0',0]:
         query = query.filter(Program.tag_id == int(form.tag.data))
 
-    if form.level.data is not None and form.level.data != 'None' and form.level.data != '-':
+    if form.level.data is not None and form.level.data not in ['None','-','0',0]:
         query = query.filter(Program.level == int(form.level.data))
 
     query = query.order_by(Program.created.desc())
@@ -204,9 +204,9 @@ def create_puzzle():
         # Create and store the new program in the database
         program = Program()
         form.populate_obj(program)
-        if form.tag_id.data == '-' or form.tag_id.data == 0:
+        if form.tag_id.data in ['-','0',0]:
             program.tag_id = None
-        if form.level.data == '-' or form.level.data == 0:
+        if form.level.data in ['-','0',0]:
             program.level = None
         program.url = program_url
         program.is_instructor = True

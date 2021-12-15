@@ -14,14 +14,18 @@
                 {{ form.course(class="form-control") }}
             </div>
             <div class="col-md-6 mb-2">
-                {{ form.author.label }}
-                {{ form.author(class="form-control") }}
-            </div>
-            <div class="col-md-6 mb-2">
                 {{ form.tag.label }}
                 {{ form.tag(class="form-control") }}
             </div>
-            <div class="col-md-12 my-3">
+            <div class="col-md-6 mb-2">
+                {{ form.level.label }}
+                {{ form.level(class="form-control") }}
+            </div>
+            <div class="col-md-6 mb-2">
+                {{ form.author.label }}
+                {{ form.author(class="form-control") }}
+            </div>
+           <div class="col-md-12 my-3">
                 {{ form.search(class="btn btn-primary float-right") }}
                 <a class="btn btn-secondary float-right mx-2" href="{{ url_for('admin.manage') }}">
                 Clear search
@@ -37,8 +41,8 @@
             <tr>
                 <th>Title</th>
                 <th>Course</th>
-                <!-- <th>Year</th>  -->
                 <th>Tag</th>
+                <th>Level</th>
                 <th>Author</th>
                 <th></th>
                 <th></th>
@@ -51,6 +55,7 @@
                 <td>{{ puzzle.course.name }}</td>
                 <!-- <td>{{ puzzle.course.year }}</td> -->
                 <td>{% if puzzle.tag %} {{ puzzle.tag.name }} {% endif %}</td>
+                <td>{{ puzzle.level }}</td>
                 <td>{{ puzzle.author }}</td>
                 <td>
                     <a class="btn btn-warning" href="{{ url_for('admin.puzzle_delete', id = puzzle.id) }}">

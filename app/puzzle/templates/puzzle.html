@@ -14,7 +14,9 @@
     </div>
 {% endif %}
 <p>Created by: {{ puzzle.author }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Difficulty level: {{ puzzle.level }}</p>
+Difficulty level: {{ puzzle.level }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Tags: {% if puzzle.tag %} {{ puzzle.tag.name }} {% else %} None {% endif %}</p>
+
 <h4>Description</h4>
 <p>
 {% filter markdown %}
