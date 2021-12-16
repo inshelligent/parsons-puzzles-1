@@ -31,6 +31,14 @@ Puzzles that have been shared can't be edited after they have been shared.
         {{ form.title(class="form-control") }}
       </div>
       <div class="col-md-6 mb-2">
+        {{ form.tag.label }}
+        {{ form.tag(class="form-control") }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.level.label }}
+        {{ form.level(class="form-control") }}
+      </div>
+      <div class="col-md-6 mb-2">
         {{ form.author.label }}
         {{ form.author(class="form-control") }}
       </div>

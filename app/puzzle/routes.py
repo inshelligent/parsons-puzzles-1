@@ -13,10 +13,20 @@ from app.utils import (
 from .forms import SearchProgramForm, ProgramForm
 
 @puzzle.route('/year7')
-def prog101_puzzles():
+def year7_puzzles():
     ''' Show all the current programs for Year 7 '''
     puzzles = Program.query.filter(Program.is_instructor == True) \
                 .join(Course).filter(Course.name == 'Year 7') \
+                .join(Tag).filter(Tag.hidden == False) \
+                .order_by(asc(Program.created)) \
+                .all()
+    return render_template('puzzles_list.html', puzzles = puzzles, course = 'Year 7', title = 'Programming Puzzles')
+
+@puzzle.route('/year8')
+def year8_puzzles():
+    ''' Show all the current programs for Year 7 '''
+    puzzles = Program.query.filter(Program.is_instructor == True) \
+                .join(Course).filter(Course.name == 'Year 8') \
                 .join(Tag).filter(Tag.hidden == False) \
                 .order_by(asc(Program.created)) \
                 .all()
@@ -89,12 +99,16 @@ def create():
             if program_with_url is None:
                 unique_url = True
 
-        course = Course.query.filter(Course.name == 'EDPF5023', Course.semester == 2).first()
+        #course = Course.query.filter(Course.name == 'EDPF5023', Course.semester == 2).first()
 
         # Create and store the new program in the database
         program = Program()
         form.populate_obj(program)
-        program.course = course
+        #program.course = course
+        if form.level.data in ['-','0',0]:
+            program.level = 1
+        if "distractor" in form.code.data:
+            program.level = 3
         program.url = program_url
         program.is_instructor = False
 

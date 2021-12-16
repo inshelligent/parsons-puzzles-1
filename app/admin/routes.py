@@ -207,7 +207,9 @@ def create_puzzle():
         if form.tag_id.data in ['-','0',0]:
             program.tag_id = None
         if form.level.data in ['-','0',0]:
-            program.level = None
+            program.level = 1
+        if "distractor" in form.code.data:
+            program.level = 3
         program.url = program_url
         program.is_instructor = True
 
