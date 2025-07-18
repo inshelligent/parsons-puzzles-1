@@ -19,9 +19,7 @@ Tags: {% if puzzle.tag %} {{ puzzle.tag.name }} {% else %} None {% endif %}</p>
 
 <h4>Description</h4>
 <p>
-{% filter markdown %}
-{{ puzzle.puzzle_description }}
-{% endfilter %}
+{{ puzzle.puzzle_description | markdown | safe }}
 </p>
 <div class="puzzle-panel">
     <h4>Puzzle</h4>

@@ -5,7 +5,8 @@ import click
 from flask.cli import with_appcontext
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flaskext.markdown import Markdown
+#from flaskext.markdown import Markdown
+import markdown2
 from flask_login import LoginManager
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -18,7 +19,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # register the database
 db = SQLAlchemy(app)
 
-Markdown(app)
+#Markdown(app)
+@app.template_filter('markdown')
+def markdown_to_html(markdown_text):
+    """Convert Markdown text to HTML"""
+    html = markdown2.markdown(markdown_text)
+    return html
+app.jinja_env.filters['markdown'] = markdown_to_html
+
 login = LoginManager(app)
 login.login_view = 'admin.login'
 

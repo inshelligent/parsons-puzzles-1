@@ -3,24 +3,22 @@
 {% block title %}<title>Parsons Puzzle: Create a Puzzle</title> {% endblock %}
 {% block content %}
 
-{% filter markdown %}
-## Create Parson's Puzzle
 
-To create a parson's puzzle, write out the program code and fill in the title, author and description fields in the form below.
+<h2>Create Parson's Puzzle</h2>
 
-You can preview the puzzle before sharing it, by clicking the *Preview* button.
-If you make changes to the code, use the *Reload Code* button to see those changes in the created puzzle.
+<p>To create a parson's puzzle, write out the program code and fill in the title, author and description fields in the form below.</p>
 
-You can put a *#distractor* comment at the end of the line to set it as a distractor line.
+<p>You can preview the puzzle before sharing it, by clicking the <em>Preview</em> button.
+If you make changes to the code, use the <em>Reload Code</em> button to see those changes in the created puzzle.</p>
+
+<p>You can put a <em>#distractor</em> comment at the end of the line to set it as a distractor line.
 Distractor lines will appear as pieces in your shared puzzle but those pieces do not have to be included in the solution.
-Note that the maximum number of distractor lines you can create in each puzzle is 10.
+Note that the maximum number of distractor lines you can create in each puzzle is 10.</p>
 
-Once you are ready to share your puzzle, click the *Share Puzzle* button.
-Puzzles that have been shared can't be edited after they have been shared.
+<p>Once you are ready to share your puzzle, click the <em>Share Puzzle</em> button.
+Puzzles that have been shared can't be edited after they have been shared.</p>
 
-## New Puzzle
-
-{% endfilter %}
+<h3>New Puzzle</h3>
 
 <div class="my-3">
   <form method="POST" novalidate>

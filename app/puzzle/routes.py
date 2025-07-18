@@ -64,7 +64,8 @@ def all_puzzles():
     page = request.args.get('page', 1, type = int)
     posts_per_page = 20
 
-    puzzles_page = query.paginate(page, posts_per_page, False)
+    #puzzles_page = query.paginate(page, posts_per_page, False)
+    puzzles_page = query.paginate(page=page, per_page=posts_per_page, error_out=False)
 
     return render_template('puzzle_search.html', 
         puzzles_page = puzzles_page, title = 'All Puzzles', form = form
